@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.todomvc</groupId>
+    <artifactId>todomvc</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <build>
+    <plugins>
+    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.3</version>
+        <executions>
+            <execution>
+                <phase>initialize</phase>
+            </execution>
+        </executions>
+        <configuration>
+            <source>1.7</source>
+            <target>1.7</target>
+        </configuration>
+    </plugin>
+
+    <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.3.2</version>
+        <executions>
+            <execution>
+                <phase>verify</phase>
+                <goals>
+                    <goal>java</goal>
+                </goals>
+            </execution>
+        </executions>
+        <configuration>
+            <classpathScope>test</classpathScope>
+            <mainClass>Helpers.Report</mainClass>
+        </configuration>
+    </plugin>
+    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
+    <plugin>
+        <groupId>com.github.temyers</groupId>
+        <artifactId>cucumber-jvm-parallel-plugin</artifactId>
+        <version>2.1.0</version>
+        <executions>
+            <execution>
+                <id>generateRunners</id>
+                <phase>initialize</phase>
+                <goals>
+                    <goal>generateRunners</goal>
+                </goals>
+                <configuration>
+                    <!-- Mandatory -->
+                    <!-- comma separated list of package names to scan for glue code -->
+                    <glue>Steps</glue>
+                    <outputDirectory>${project.build.directory}/generated-test-sources/cucumber</outputDirectory>
+                    <!-- The directory, which must be in the root of the runtime classpath, containing your feature files.  -->
+                    <featuresDirectory>src/test/java/Features/</featuresDirectory>
+                    <!-- Directory where the cucumber report files shall be written  -->
+                    <cucumberOutputDir>target/cucumber-parallel</cucumberOutputDir>
+                    <!-- comma separated list of output formats json,html,rerun.txt -->
+                    <format>json</format>
+                    <!-- CucumberOptions.strict property -->
+                    <strict>true</strict>
+                    <!-- CucumberOptions.monochrome property -->
+                    <monochrome>true</monochrome>
+                    <!-- The tags to run, maps to CucumberOptions.tags property you can pass ANDed tags like "@tag1","@tag2" and ORed tags like "@tag1,@tag2,@tag3" -->
+                    <tags></tags>
+                    <!-- If set to true, only feature files containing the required tags shall be generated. -->
+                    <filterFeaturesByTags>true</filterFeaturesByTags>
+                    <!-- Generate TestNG runners instead of default JUnit ones. -->
+                    <useTestNG>true</useTestNG>
+                    <!-- The naming scheme to use for the generated test classes.  One of 'simple' or 'feature-title' -->
+                    <namingScheme>simple</namingScheme>
+                    <!-- The class naming pattern to use.  Only required/used if naming scheme is 'pattern'.-->
+                    <namingPattern></namingPattern>
+                    <!-- One of [SCENARIO, FEATURE]. SCENARIO generates one runner per scenario.  FEATURE generates a runner per feature. -->
+                    <parallelScheme>FEATURE</parallelScheme>
+                    <!-- This is optional, required only if you want to specify a custom template for the generated sources (this is a relative path) -->
+                    <customVmTemplate></customVmTemplate>
+                </configuration>
+            </execution>
+        </executions>
+    </plugin>
+
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.19.1</version>
+        <configuration>
+            <testFailureIgnore>true</testFailureIgnore>
+            <includes>
+                <include>*IT.java</include>
+
+            </includes>
+            <testFailureIgnore>true</testFailureIgnore>
+            <useSystemClassLoader>true</useSystemClassLoader>
+            <reuseForks>false</reuseForks>
+            <forkCount>10</forkCount>
+            <argLine>-Duser.language=en</argLine>
+            <argLine>-Xmx1024m</argLine>
+            <argLine>-XX:MaxPermSize=256m</argLine>
+            <argLine>-Dfile.encoding=UTF-8</argLine>
+            <useFile>false</useFile>
+        </configuration>
+    </plugin>
+    </plugins>
+    </build>
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
+
+        <!-- Cucumber Specific -->
+        <!-- https://mvnrepository.com/artifact/info.cukes/cucumber-java -->
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.11</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.reflections/reflections -->
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.11</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/info.cukes/cucumber-picocontainer -->
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>1.2.5</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/info.cukes/cucumber-testng -->
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/info.cukes/cucumber-picocontainer -->
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>1.2.5</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/net.masterthought/cucumber-reporting -->
+        <dependency>
+            <groupId>net.masterthought</groupId>
+            <artifactId>cucumber-reporting</artifactId>
+            <version>3.9.0</version>
+        </dependency>
+
+
+    </dependencies>
+
+</project>
