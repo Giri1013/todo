@@ -1,0 +1,7 @@
+Issue :
+1) Wait related errors while trying to add text under To do text box. - Fixed by adding specific wait
+ 2) Cannot focus element - while editing the newly added To do Entry - Fixed by using actions class
+ 3) Firefox browser issues - compatible gecko driver - Firefox 54.1.0 - geckodriver - 0.17
+ 4) Full Todo actions not working in firefox - Selenium Actions not working in Firefox using Gecko
+
+
